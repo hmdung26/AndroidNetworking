@@ -1,18 +1,27 @@
 package com.example.asm;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.asm.adapter.SanPhamAdapter;
+import com.example.asm.model.SanPham;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class HomeScreenn extends AppCompatActivity {
 
- RecyclerView reyc;
- Button btnadd;
- TextView tensp,giasp,motasp,soluongsp;
+ private RecyclerView reyc;
+    private Button btnadd;
+    private List<SanPham> ltsSP;
+    private SanPhamAdapter adapter;
 
 
 
@@ -23,7 +32,12 @@ public class HomeScreenn extends AppCompatActivity {
         setContentView(R.layout.activity_home_screenn);
 
         //Ánh Xạ
-
+        reyc = findViewById(R.id.recyclerView);
+        ltsSP = new ArrayList<>();
+        adapter = new SanPhamAdapter(ltsSP);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        reyc.setLayoutManager(linearLayoutManager);
+        reyc.setAdapter(adapter);
 
 
     }

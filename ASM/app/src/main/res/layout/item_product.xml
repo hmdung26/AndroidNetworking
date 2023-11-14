@@ -14,7 +14,7 @@
         android:background="#E2BCB7"
         android:layout_height="wrap_content">
         <ImageView
-            android:id="@+id/imgSanPhamADM"
+            android:id="@+id/imgSanPham"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="20dp"
 
