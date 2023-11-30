@@ -1,6 +1,9 @@
 package com.example.asm.adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,8 +17,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.asm.ChiTietSanPham;
 import com.example.asm.MainActivity;
 import com.example.asm.R;
+import com.example.asm.UpdateSp;
 import com.example.asm.api.apiService;
 import com.example.asm.model.SanPham;
 import com.example.asm.model.DeleteSp;
@@ -34,8 +39,9 @@ public class SanPhamAdapter extends RecyclerView.Adapter<SanPhamAdapter.SanPhamV
     private Context context;
 
 
-    public SanPhamAdapter(List<SanPham> ltsSP) {
+    public SanPhamAdapter(List<SanPham> ltsSP , Context context) {
         this.ltsSP = ltsSP;
+        this.context = context;
     }
     @NonNull
     @Override
@@ -57,7 +63,14 @@ public class SanPhamAdapter extends RecyclerView.Adapter<SanPhamAdapter.SanPhamV
         //holder.txtSoLuongSP.setText(sanPham.getImage());
         holder.txtGiaSP.setText(sanPham.getPrice());
         Picasso.get().load(Uri.parse(imgSrc)).into(holder.imgSP);
+        SharedPreferences sharedPreferences = context.getSharedPreferences("USER_INFO",Context.MODE_PRIVATE);
+        String role = sharedPreferences.getString("role","");
 
+        if (role.equals("1")){
+
+            holder.btnDelete.setVisibility(View.GONE);
+            holder.btnEdit.setVisibility(View.GONE);
+        }
 
         holder.btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,7 +80,29 @@ public class SanPhamAdapter extends RecyclerView.Adapter<SanPhamAdapter.SanPhamV
             }
         });
 
+        holder.btnEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, UpdateSp.class);
+                intent.putExtra("_idSp",_id);
+                context.startActivity(intent);
+            }
+
+
+        });
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, ChiTietSanPham.class);
+                intent.putExtra("_idSp",_id);
+                context.startActivity(intent);
+            }
+        });
+
     }
+
+
 
     @Override
     public int getItemCount() {
@@ -119,5 +154,33 @@ public class SanPhamAdapter extends RecyclerView.Adapter<SanPhamAdapter.SanPhamV
 
             }
         });
+    }
+    private void upDateSp(String _id , String imgsrc ,String NameSp,String MoTa, String gia) {
+
+
+
+    }
+    private void callApiUpdateSp(String edtten, String edtImg, String edtGia, String edtmota) {
+            SanPham sanPham = new SanPham(null,edtten,edtGia,edtmota,edtImg);
+
+            apiService.Apiservice.updateSP(sanPham).enqueue(new Callback<SanPham>() {
+                @Override
+                public void onResponse(Call<SanPham> call, Response<SanPham> response) {
+                    if (response.isSuccessful()) {
+
+                        notifyDataSetChanged();
+
+                    } else {
+                        Log.e("API_CALL_ERROR", "Error code: " + response.code());
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<SanPham> call, Throwable t) {
+
+                }
+            });
+
     }
 }

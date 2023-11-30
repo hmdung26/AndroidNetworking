@@ -9,18 +9,14 @@ public class SanPham {
 
     private String description;
 
-    public SanPham( String nameproduct, String price, String image, String description) {
-
+    public SanPham(String _id, String nameproduct, String price, String image, String description) {
+        this._id = _id;
         this.nameproduct = nameproduct;
         this.price = price;
         this.image = image;
         this.description = description;
     }
 
-    public void SanPhamxoa(String _id) {
-        this._id = _id;
-        
-    }
 
     public String get_id() {
         return _id;

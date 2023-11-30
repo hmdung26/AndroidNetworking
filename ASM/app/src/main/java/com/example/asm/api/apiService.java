@@ -4,6 +4,7 @@ package com.example.asm.api;
 
 import com.example.asm.model.DeleteSp;
 import com.example.asm.model.SanPham;
+import com.example.asm.model.auth;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -22,7 +23,7 @@ public interface apiService {
 
     Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
 
-    apiService Apiservice = new Retrofit.Builder() .baseUrl("http://192.168.177.1:3000/").addConverterFactory(GsonConverterFactory.create(gson)).build().create(apiService.class);
+        apiService Apiservice = new Retrofit.Builder() .baseUrl("http://192.168.0.102:3000/").addConverterFactory(GsonConverterFactory.create(gson)).build().create(apiService.class);
 
 
     @GET("sanpham")
@@ -32,4 +33,18 @@ public interface apiService {
 
     @POST("xoasanpham")
     Call <DeleteSp> xoaSP(@Body DeleteSp deleteSp);
+
+    @POST("signin")
+    Call<auth> checkSignIn(@Body auth Auth);
+
+    @POST("reg")
+    Call<auth> postU(@Body auth Auth);
+
+    @POST("upsanpham")
+    Call<SanPham> updateSP(@Body SanPham sanPham);
+
+    @POST("chitiet")
+    Call<SanPham> ChitietSP(@Body SanPham sanPham);
+
+
 }

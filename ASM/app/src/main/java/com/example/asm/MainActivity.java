@@ -56,12 +56,19 @@ public class MainActivity extends AppCompatActivity {
         giasp = findViewById(R.id.idGiaSanPham);
         motasp = findViewById(R.id.idMoTaSanPham);
         soluongsp = findViewById(R.id.idSoLuongSanpham);
+        SharedPreferences sharedPreferences = getSharedPreferences("USER_INFO",MODE_PRIVATE);
+        String role = sharedPreferences.getString("role", "");
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         reyc.setLayoutManager(linearLayoutManager);
        callApiGetSP();
         ltsSP = new ArrayList<>();
 
+
+        if (role.equals("1")){
+            btnadd.setVisibility(View.GONE);
+
+        }
         btnadd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -77,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<List<SanPham>> call, Response<List<SanPham>> response) {
                 if (response.isSuccessful()) {
                     ltsSP = response.body();
-                    SanPhamAdapter sanPhamAdapter = new SanPhamAdapter(ltsSP);
+                    SanPhamAdapter sanPhamAdapter = new SanPhamAdapter(ltsSP, MainActivity.this);
                     reyc.setAdapter(sanPhamAdapter);
                 } else {
                     Log.e("API_CALL_ERROR", "Error code: " + response.code());
@@ -168,13 +175,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void callApAddSP(String edtten, String edtImg, String edtGia, String edtmota){
 
-        SanPham sanPham = new SanPham(edtten,edtGia,edtmota,edtImg);
+        SanPham sanPham = new SanPham(null,edtten,edtGia,edtmota,edtImg);
         apiService.Apiservice.addSP(sanPham).enqueue(new Callback<SanPham>() {
             @Override
             public void onResponse(Call<SanPham> call, Response<SanPham> response) {
                 if (response.isSuccessful()) {
                     ltsSP.add(response.body()) ;
-                    SanPhamAdapter sanPhamAdapter = new SanPhamAdapter(ltsSP);
+                    SanPhamAdapter sanPhamAdapter = new SanPhamAdapter(ltsSP , MainActivity.this);
                     reyc.setAdapter(sanPhamAdapter);
                 } else {
                     Log.e("API_CALL_ERROR", "Error code: " + response.code());

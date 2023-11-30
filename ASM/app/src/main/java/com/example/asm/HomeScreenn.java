@@ -34,7 +34,7 @@ public class HomeScreenn extends AppCompatActivity {
         //Ánh Xạ
         reyc = findViewById(R.id.recyclerView);
         ltsSP = new ArrayList<>();
-        adapter = new SanPhamAdapter(ltsSP);
+        adapter = new SanPhamAdapter(ltsSP,this);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         reyc.setLayoutManager(linearLayoutManager);
         reyc.setAdapter(adapter);

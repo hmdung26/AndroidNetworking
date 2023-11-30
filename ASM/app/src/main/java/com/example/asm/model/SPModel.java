@@ -1,24 +1,24 @@
-package com.example.lab5;
+package com.example.asm.model;
 
 public class SPModel {
-    private int pid;
+    private String _id;
     private String name;
     private float price;
     private String description;
 
-    public SPModel(int pid, String name, float price, String description) {
-        this.pid = pid;
+    public SPModel(String _id, String name, float price, String description) {
+        this._id = _id;
         this.name = name;
         this.price = price;
         this.description = description;
     }
 
-    public int getPid() {
-        return pid;
+    public String getPid() {
+        return _id;
     }
 
-    public void setPid(int pid) {
-        this.pid = pid;
+    public void setPid(String _id) {
+        this._id = _id;
     }
 
     public String getName() {
